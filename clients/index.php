@@ -6,9 +6,10 @@ $config = include("../db/config.php");
 $db = new PDO($config["db"], $config["username"], $config["password"]);
 $clients = new ClientRepository($db);
 
-
 switch($_SERVER["REQUEST_METHOD"]) {
-    case "GET":
+    
+    //changed "GET" to $_GET
+    case $_GET:
         $result = $clients->getAll(array(
             "name" => $_GET["name"],
             "address" => $_GET["address"],
@@ -16,7 +17,8 @@ switch($_SERVER["REQUEST_METHOD"]) {
         ));
         break;
 
-    case "POST":
+    //changed "POST" to $_POST
+    case $_POST:
         $result = $clients->insert(array(
             "name" => $_POST["name"],
             "age" => intval($_POST["age"]),
@@ -45,7 +47,6 @@ switch($_SERVER["REQUEST_METHOD"]) {
         $result = $clients->remove(intval($_DELETE["id"]));
         break;
 }
-
 
 header("Content-Type: application/json");
 echo json_encode($result);
